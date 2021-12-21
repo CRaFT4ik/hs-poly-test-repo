@@ -48,7 +48,19 @@ myGCD inX inY =
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
-isDateCorrect = notImplementedYet
+isDateCorrect d m y =
+    let leap = isLeap y in
+    if | d < 1 || d > 31 || m < 1 || m > 12 -> False
+       | leap && m == 2 && d > 29 -> False
+       | not leap && m == 2 && d > 28 -> False
+       | odd d && d == 31 -> False
+       | otherwise -> True
+
+isLeap :: Integer -> Bool
+isLeap year = if | year `rem` 4 /= 0 -> False
+                 | year `rem` 100 /= 0 -> True
+                 | year `rem` 400 /= 0 -> False
+                 | otherwise -> True
 
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
