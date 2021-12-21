@@ -37,7 +37,13 @@ cosAdd x k =
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer
-myGCD = notImplementedYet
+myGCD inX inY =
+  let x = abs inX
+      y = abs inY
+   in if
+          | x == 0 || y == 0 -> x + y
+          | x > y -> myGCD (x `rem` y) y
+          | otherwise -> myGCD x (y `rem` x)
 
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
