@@ -1,14 +1,39 @@
+{-# LANGUAGE MultiWayIf #-}
+
 module Part1.Tasks where
 
-import Util(notImplementedYet)
+import Util (notImplementedYet)
+
+fact :: Integer -> Double
+fact 0 = 1
+fact n = fromIntegral n * fact (n - 1)
+
+factorial n = product [1 .. n]
+
+checkEps :: Double -> Bool
+checkEps x = abs x <= 1e-16
+
+inRadians :: Double -> Double
+inRadians x = let circle = 2 * pi in x - circle * fromIntegral (floor (x / circle))
 
 -- синус числа (формула Тейлора)
 mySin :: Double -> Double
-mySin = notImplementedYet
+mySin x = sinAdd (inRadians x) 0
+
+sinAdd :: Double -> Integer -> Double
+sinAdd x k =
+  let m = 2 * k + 1
+      res = (-1) ^ k * (x ^^ m) / fact m
+   in if checkEps res then res else res + sinAdd x (k + 1)
 
 -- косинус числа (формула Тейлора)
 myCos :: Double -> Double
-myCos = notImplementedYet
+myCos x = cosAdd (inRadians x) 0
+
+cosAdd x k =
+  let m = 2 * k
+      res = (-1) ^ k * (x ^^ m) / fact m
+   in if checkEps res then res else res + cosAdd x (k + 1)
 
 -- наибольший общий делитель двух чисел
 myGCD :: Integer -> Integer -> Integer
