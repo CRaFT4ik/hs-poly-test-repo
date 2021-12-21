@@ -49,23 +49,33 @@ myGCD inX inY =
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
 isDateCorrect d m y =
-    let leap = isLeap y in
-    if | d < 1 || d > 31 || m < 1 || m > 12 -> False
-       | leap && m == 2 && d > 29 -> False
-       | not leap && m == 2 && d > 28 -> False
-       | odd d && d == 31 -> False
-       | otherwise -> True
+  let leap = isLeap y
+   in if
+          | d < 1 || d > 31 || m < 1 || m > 12 -> False
+          | leap && m == 2 && d > 29 -> False
+          | not leap && m == 2 && d > 28 -> False
+          | odd d && d == 31 -> False
+          | otherwise -> True
 
 isLeap :: Integer -> Bool
-isLeap year = if | year `rem` 4 /= 0 -> False
-                 | year `rem` 100 /= 0 -> True
-                 | year `rem` 400 /= 0 -> False
-                 | otherwise -> True
+isLeap year =
+  if
+      | year `rem` 4 /= 0 -> False
+      | year `rem` 100 /= 0 -> True
+      | year `rem` 400 /= 0 -> False
+      | otherwise -> True
 
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
 myPow :: Integer -> Integer -> Integer
-myPow = notImplementedYet
+myPow a n = myPow' a n 0
+
+myPow' a i sum =
+  sum
+    + if
+        | i == 0 -> 1
+        | i == 1 -> a
+        | otherwise -> a * myPow' a (i - 1) 0
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
