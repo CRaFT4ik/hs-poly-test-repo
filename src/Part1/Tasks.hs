@@ -2,6 +2,7 @@
 
 module Part1.Tasks where
 
+import Data.List (nub)
 import Util (notImplementedYet)
 
 fact :: Integer -> Double
@@ -86,8 +87,22 @@ type Point2D = (Double, Double)
 -- рассчитайте площадь многоугольника по формуле Гаусса
 -- многоугольник задан списком координат
 shapeArea :: [Point2D] -> Double
---shapeArea points = notImplementedYet
-shapeArea = notImplementedYet
+shapeArea points = 0.5 * abs (shapeCalc pointsNum 0 uniqPoints)
+  where
+    uniqPoints = nub points
+    pointsNum = length uniqPoints
+
+shapeCalc :: Int -> Int -> [Point2D] -> Double
+shapeCalc n i lst =
+  if i == (n - 1)
+    then
+      let (x_n, y_i) = lst !! (n - 1)
+          (x_0, y_0) = head lst
+       in x_n * y_0 - x_0 * y_i
+    else
+      let (x_i, y_i) = lst !! i
+          (x_j, y_j) = lst !! (i + 1)
+       in x_i * y_j - x_j * y_i + shapeCalc n (i + 1) lst
 
 -- треугольник задан длиной трёх своих сторон.
 -- функция должна вернуть
