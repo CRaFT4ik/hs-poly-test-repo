@@ -2,7 +2,7 @@
 
 module Part1.Tasks where
 
-import Data.List (nub)
+import Data.List (nub, delete)
 import Util (notImplementedYet)
 
 fact :: Integer -> Double
@@ -80,7 +80,8 @@ myPow' a i sum =
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
-isPrime = notImplementedYet
+isPrime 1 = True
+isPrime x = and [x `mod` y /= 0 | y <- [2 .. (x -1)]]
 
 type Point2D = (Double, Double)
 
@@ -111,4 +112,14 @@ shapeCalc n i lst =
 --  2, если он прямоугольный
 --  -1, если это не треугольник
 triangleKind :: Double -> Double -> Double -> Integer
-triangleKind a b c = notImplementedYet
+triangleKind a b c =
+  if a + b <= c || b + c <= a || a + c <= b then (-1) else
+    if | cc == aa + bb -> 2
+       | cc < bb + aa -> 1
+       | otherwise -> 0
+    where max = maximum [a, b, c]
+          min = minimum [a, b, c]
+          mid = head . delete min . delete max $ [a, b, c]
+          cc = max ^^ 2
+          aa = min ^^ 2
+          bb = mid ^^ 2

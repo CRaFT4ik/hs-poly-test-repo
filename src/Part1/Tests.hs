@@ -101,6 +101,6 @@ prop_shapeArea (x, y) w h =
 unit_triangleKind =
     do
         triangleKind 3.0 7.5 4.0 @?= (-1)
-        triangleKind 5.0 3.0 4.0 @?= 1
-        triangleKind 4.0 6.0 8.0 @?= 2
-        triangleKind 1.0 1.5 1.5 @?= 0
+        triangleKind 5.0 3.0 4.0 @?= 2 -- это прямоугольный треугольник
+        triangleKind 4.0 6.0 8.0 @?= 0 -- это тупоугольный треугольник
+        triangleKind 1.0 1.5 1.5 @?= 1 -- это остроугольный треугольник
