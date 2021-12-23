@@ -1,7 +1,7 @@
 module Part3.Tasks where
 
-import Util (notImplementedYet)
 import Data.List (nubBy)
+import Util (notImplementedYet)
 
 -- Функция finc принимает на вход функцию f и число n и возвращает список чисел [f(n), f(n + 1), ...]
 finc :: (Int -> a) -> Int -> [a]
@@ -13,11 +13,20 @@ ff f x = x : ff f (f x)
 
 -- Дан список чисел. Вернуть самую часто встречающуюся *цифру* в этих числах (если таковых несколько -- вернуть любую)
 mostFreq :: [Int] -> Int
-mostFreq list = notImplementedYet -- map ( next)
+mostFreq list =
+  let digits = concatMap getDigits list
+      uniqDigits = uniq digits
+   in fst . findMostFreq $ map (\e -> (e, length . filter (== e) $ digits)) uniqDigits
 
--- comp :: [Int] -> (Int, Int)
--- comp list = let h = head list
---    in length $ filter (== h) list
+getDigits :: Int -> [Int]
+getDigits 0 = []
+getDigits n = n `mod` 10 : getDigits (n `div` 10)
+
+findMostFreq :: [(Int, Int)] -> (Int, Int)
+findMostFreq [] = (0, -1)
+findMostFreq ((number, count) : tail) =
+  let (nextNumber, nextCount) = findMostFreq tail
+   in if count > nextCount then (number, count) else (nextNumber, nextCount)
 
 -- Дан список lst. Вернуть список элементов из lst без повторений, порядок может быть произвольным.
 uniq :: (Eq a) => [a] -> [a]
