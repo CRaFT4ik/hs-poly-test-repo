@@ -2,7 +2,6 @@
 
 module Part4.Tasks where
 
-import Data.List
 import Util (notImplementedYet)
 
 -- Перевёрнутый связный список -- хранит ссылку не на последующию, а на предыдущую ячейку
@@ -33,16 +32,25 @@ instance (Show a) => Show (ReverseList a) where
         let others = elems t
          in if others == "" then show h else others ++ "," ++ show h
 
-instance Eq (ReverseList a) where
-  (==) = notImplementedYet
-  (/=) = notImplementedYet
+instance Eq a => Eq (ReverseList a) where
+  (==) REmpty REmpty = True
+  (==) _ REmpty = False
+  (==) REmpty _ = False
+  (==) (t1 :< h1) (t2 :< h2) = h1 == h2 && (t1 == t2)
+  (/=) a b = not (a == b)
 
-instance Semigroup (ReverseList a)
+instance Semigroup (ReverseList a) where
+  (<>) = notImplementedYet 
 
-instance Monoid (ReverseList a)
+instance Monoid (ReverseList a) where
+  mempty = notImplementedYet 
 
-instance Functor ReverseList
+instance Functor ReverseList where
+  fmap = notImplementedYet
 
-instance Applicative ReverseList
+instance Applicative ReverseList where
+  pure = notImplementedYet
+  (<*>) = notImplementedYet
 
-instance Monad ReverseList
+instance Monad ReverseList where
+  (>>=) = notImplementedYet
