@@ -68,6 +68,6 @@ unit_monad =
     do
         return 1 @?= (REmpty :< 1)
         (do { x <- REmpty :< 1 :< 2; y <- REmpty :< 3 :< 4; return (x + y) }) @?=
-            (REmpty :< 3 :< 4 :< 6 :< 8)
+            (REmpty :< 4 :< 5 :< 5 :< 6) -- same fix as above (line 49)
         (do { x <- REmpty :< 1 :< 2; y <- REmpty; return (x + y) }) @?=
             (REmpty)

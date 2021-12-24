@@ -67,10 +67,17 @@ instance Applicative ReverseList where
   -- Possibility to apply Functor's operator to multiple expressions
   -- Example 1: fmap (*) [1,2,3] <*> [3,4] === [3,4,6,8,9,12]
   -- Example 2: (++) <$> ["ha","heh","hmm"] <*> ["?","!","."] ===
-  --              ["ha?","ha!","ha.","heh?","heh!","heh.","hmm?","hmm!","hmm."] 
+  --              ["ha?","ha!","ha.","heh?","heh!","heh.","hmm?","hmm!","hmm."]
   (<*>) :: ReverseList (a -> b) -> ReverseList a -> ReverseList b
   (<*>) _ REmpty = REmpty
   (<*>) REmpty _ = REmpty
   (<*>) (t1 :< h1) (t2 :< h2) = (t1 <*> (t2 :< h2)) <> (fmap h1 t2 :< h1 h2)
+
 instance Monad ReverseList where
-  (>>=) = notImplementedYet
+  (>>=) :: ReverseList a -> (a -> ReverseList b) -> ReverseList b
+  (>>=) xs k = flatten $ fmap k xs --k =<< xs -- === join $ fmap k xs
+
+flatten :: ReverseList (ReverseList a) -> ReverseList a
+flatten REmpty = REmpty
+flatten (REmpty :< h) = h
+flatten (t :< int) = flatten t <> int
