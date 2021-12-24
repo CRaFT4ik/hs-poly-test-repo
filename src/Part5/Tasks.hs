@@ -15,19 +15,19 @@ myFoldr f init (h : t) = f h (myFoldr f init t)
 -- Используя реализации свёрток выше, реализуйте все остальные функции в данном файле
 
 myMap :: (a -> b) -> [a] -> [b]
-myMap f = notImplementedYet
+myMap f = myFoldr (\e t -> f e : t) []
 
 myConcatMap :: (a -> [b]) -> [a] -> [b]
-myConcatMap f = notImplementedYet
+myConcatMap f = myFoldr ((++) . f) []
 
 myConcat :: [[a]] -> [a]
-myConcat = notImplementedYet
+myConcat = myFoldr (++) []
 
 myReverse :: [a] -> [a]
-myReverse = notImplementedYet
+myReverse = myFoldl (\acc e -> e : acc) []
 
 myFilter :: (a -> Bool) -> [a] -> [a]
-myFilter p = notImplementedYet
+myFilter p = myFoldr (\e acc -> if p e then e : acc else acc) []
 
 myPartition :: (a -> Bool) -> [a] -> ([a], [a])
-myPartition p = notImplementedYet
+myPartition p list = (myFilter p list, myFilter (not . p) list)
