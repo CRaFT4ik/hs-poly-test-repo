@@ -46,8 +46,9 @@ unit_applicative =
     do
         (+) <$> empty <*> empty @?= empty
         (*) <$> (REmpty :< 1 :< 2 :< 3) <*> (REmpty :< 2) @?= (REmpty :< 2 :< 4 :< 6)
-        (+) <$> (REmpty :< 1 :< 2) <*> (REmpty :< 3 :< 4) @?= (REmpty :< 3 :< 4 :< 6 :< 8)
-
+        (+) <$> (REmpty :< 1 :< 2) <*> (REmpty :< 3 :< 4) @?= (REmpty :< 4 :< 5 :< 5 :< 6)
+        -- additional check for above expression
+        show (fmap (+) (listToRlist [1,2]) <*> (listToRlist [3,4])) @?= show (fmap (+) [1,2] <*> [3,4])
 
 prop_applicative =
     oneArg .&&. twoArg

@@ -50,6 +50,7 @@ instance Semigroup (ReverseList a) where
       addToRlist (t :< h) elem = t :< h :< elem
 
 instance Monoid (ReverseList a) where
+  -- Just Semigroup with 'e'
   mempty = REmpty
 
 instance Functor ReverseList where
@@ -59,8 +60,17 @@ instance Functor ReverseList where
   fmap f (t :< h) = fmap f t :< f h
 
 instance Applicative ReverseList where
-  pure = notImplementedYet
-  (<*>) = notImplementedYet
+  -- Note: pure f<*>x === fmap f x
+  pure :: a -> ReverseList a
+  pure a = REmpty :< a
 
+  -- Possibility to apply Functor's operator to multiple expressions
+  -- Example 1: fmap (*) [1,2,3] <*> [3,4] === [3,4,6,8,9,12]
+  -- Example 2: (++) <$> ["ha","heh","hmm"] <*> ["?","!","."] ===
+  --              ["ha?","ha!","ha.","heh?","heh!","heh.","hmm?","hmm!","hmm."] 
+  (<*>) :: ReverseList (a -> b) -> ReverseList a -> ReverseList b
+  (<*>) _ REmpty = REmpty
+  (<*>) REmpty _ = REmpty
+  (<*>) (t1 :< h1) (t2 :< h2) = (t1 <*> (t2 :< h2)) <> (fmap h1 t2 :< h1 h2)
 instance Monad ReverseList where
   (>>=) = notImplementedYet
