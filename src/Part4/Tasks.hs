@@ -53,7 +53,10 @@ instance Monoid (ReverseList a) where
   mempty = REmpty
 
 instance Functor ReverseList where
-  fmap = notImplementedYet
+  -- Applying function (a -> b) to each element with saving source structure
+  fmap :: (a -> b) -> ReverseList a -> ReverseList b
+  fmap f REmpty = REmpty
+  fmap f (t :< h) = fmap f t :< f h
 
 instance Applicative ReverseList where
   pure = notImplementedYet
