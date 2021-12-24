@@ -4,7 +4,8 @@ import Util(notImplementedYet)
 
 -- Реализуйте левую свёртку
 myFoldl :: (b -> a -> b) -> b -> [a] -> b
-myFoldl = notImplementedYet
+myFoldl _ init [] = init
+myFoldl f init (h : t) = f (myFoldl f init t) h
 
 -- Реализуйте правую свёртку
 myFoldr :: (a -> b -> b) -> b -> [a] -> b
