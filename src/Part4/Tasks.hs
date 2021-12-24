@@ -40,10 +40,16 @@ instance Eq a => Eq (ReverseList a) where
   (/=) a b = not (a == b)
 
 instance Semigroup (ReverseList a) where
-  (<>) = notImplementedYet 
+  -- Union operation: ReverseList a -> ReverseList a -> ReverseList a
+  (<>) e REmpty = e
+  (<>) REmpty e = e
+  (<>) l1 (t2 :< h2) = addToRlist (l1 <> t2) h2
+    where
+      addToRlist REmpty elem = REmpty :< elem
+      addToRlist (t :< h) elem = t :< h :< elem
 
 instance Monoid (ReverseList a) where
-  mempty = notImplementedYet 
+  mempty = REmpty
 
 instance Functor ReverseList where
   fmap = notImplementedYet
