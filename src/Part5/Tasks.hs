@@ -1,15 +1,16 @@
 module Part5.Tasks where
 
-import Util(notImplementedYet)
+import Util (notImplementedYet)
 
 -- Реализуйте левую свёртку
 myFoldl :: (b -> a -> b) -> b -> [a] -> b
 myFoldl _ init [] = init
-myFoldl f init (h : t) = f (myFoldl f init t) h
+myFoldl f init (h : t) = myFoldl f (f init h) t
 
 -- Реализуйте правую свёртку
 myFoldr :: (a -> b -> b) -> b -> [a] -> b
-myFoldr = notImplementedYet
+myFoldr _ init [] = init
+myFoldr f init (h : t) = f h (myFoldr f init t)
 
 -- Используя реализации свёрток выше, реализуйте все остальные функции в данном файле
 
@@ -30,4 +31,3 @@ myFilter p = notImplementedYet
 
 myPartition :: (a -> Bool) -> [a] -> ([a], [a])
 myPartition p = notImplementedYet
-
